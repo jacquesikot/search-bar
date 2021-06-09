@@ -1,0 +1,51 @@
+Arguments: 
+  /snap/node/3292/bin/node /snap/node/3292/bin/yarn.js install
+
+PATH: 
+  /home/jacques/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.19.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: connect EHOSTUNREACH 104.16.20.35:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1145:16)
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "~41.0.1",
+      "expo-status-bar": "~1.0.4",
+      "react": "16.13.1",
+      "react-dom": "16.13.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+      "react-native-web": "~0.13.12"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.9.0",
+      "@types/react": "~16.9.35",
+      "@types/react-native": "~0.63.2",
+      "typescript": "~4.0.0"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
