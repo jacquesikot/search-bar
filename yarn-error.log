@@ -1,5 +1,5 @@
 Arguments: 
-  /snap/node/3292/bin/node /snap/node/3292/bin/yarn.js install
+  /snap/node/3292/bin/node /snap/node/3292/bin/yarn.js add expo
 
 PATH: 
   /home/jacques/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -14,8 +14,8 @@ Platform:
   linux x64
 
 Trace: 
-  Error: connect EHOSTUNREACH 104.16.20.35:443
-      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1145:16)
+  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:66:26)
 
 npm manifest: 
   {
