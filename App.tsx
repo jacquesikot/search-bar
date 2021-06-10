@@ -24,18 +24,12 @@ const data: Data[] = [
     id: 1,
     value: 'Street',
   },
-  {
-    id: 2,
-    value: 'Men',
-  },
+
   {
     id: 3,
     value: 'Survive',
   },
-  {
-    id: 4,
-    value: 'Office',
-  },
+
   {
     id: 5,
     value: 'Notes',
@@ -47,6 +41,14 @@ const data: Data[] = [
   {
     id: 7,
     value: 'Fixer',
+  },
+  {
+    id: 8,
+    value: 'Solve',
+  },
+  {
+    id: 9,
+    value: 'Severe',
   },
 ];
 
@@ -70,6 +72,15 @@ export default function App() {
     setSearchResult(result);
   };
 
+  const handleAddSearch = (searchedText: string) => {
+    Keyboard.dismiss();
+    keyboardWillHide();
+    return data.push({
+      id: Math.random(),
+      value: searchedText,
+    });
+  };
+
   useEffect(() => {
     Keyboard.addListener('keyboardWillHide', keyboardWillHide);
     return () => {
@@ -89,6 +100,19 @@ export default function App() {
           visible={showResult}
           searchResult={searchResult}
           searchData={searchData}
+          handleAddSearch={handleAddSearch}
+        />
+        <Text style={{ fontSize: 30, color: 'blue', marginTop: 20 }}>
+          Items saved in memory
+        </Text>
+
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Text style={{ marginTop: 10 }}>{item.value}</Text>
+          )}
         />
       </TouchableOpacity>
       <StatusBar style="auto" />
@@ -101,6 +125,7 @@ interface SearchProps {
   visible: boolean;
   searchResult: Data[];
   searchData: (e: string) => void;
+  handleAddSearch: (searchText: string) => void;
 }
 
 const Search: React.FC<SearchProps> = ({
@@ -108,19 +133,16 @@ const Search: React.FC<SearchProps> = ({
   visible,
   searchResult,
   searchData,
+  handleAddSearch,
 }) => {
   const [nativeEventText, setNativeEventText] = useState<string>('');
-
-  const handleAddSearch = () => {
-    alert('run your create function here');
-  };
 
   return (
     <>
       <View style={styles.search}>
         <RNTextInput
           placeholder="search here"
-          placeholderTextColor="#808080"
+          placeholderTextColor="black"
           onFocus={() => {
             showResult(true);
           }}
@@ -135,7 +157,10 @@ const Search: React.FC<SearchProps> = ({
         {searchResult.length < 1 && nativeEventText.length < 1 ? (
           <Text style={{ color: '#808080' }}>Start searching...</Text>
         ) : nativeEventText.length > 0 && searchResult.length < 1 ? (
-          <TouchableOpacity onPress={handleAddSearch} style={styles.addButton}>
+          <TouchableOpacity
+            onPress={() => handleAddSearch(nativeEventText)}
+            style={styles.addButton}
+          >
             <Text style={{ color: 'white' }}>Create</Text>
             <View>
               <Text style={{ color: 'white' }}>{` "${nativeEventText}`}</Text>
@@ -179,6 +204,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 3,
     borderRadius: 5,
+    zIndex: 2,
   },
   addButton: {
     flexDirection: 'row',
