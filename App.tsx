@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   Text,
@@ -11,7 +12,7 @@ import {
   FlatList,
 } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 interface Data {
   id: number;
@@ -67,7 +68,6 @@ export default function App() {
       if (d.value.includes(searchText)) return d;
     });
     setSearchResult(result);
-    console.log(searchResult);
   };
 
   useEffect(() => {
@@ -90,8 +90,8 @@ export default function App() {
           searchResult={searchResult}
           searchData={searchData}
         />
-        {/* <Text>Items</Text> */}
       </TouchableOpacity>
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
@@ -109,28 +109,46 @@ const Search: React.FC<SearchProps> = ({
   searchResult,
   searchData,
 }) => {
+  const [nativeEventText, setNativeEventText] = useState<string>('');
+
+  const handleAddSearch = () => {
+    alert('run your create function here');
+  };
+
   return (
     <>
       <View style={styles.search}>
         <RNTextInput
           placeholder="search here"
-          placeholderTextColor="black"
+          placeholderTextColor="#808080"
           onFocus={() => {
             showResult(true);
           }}
           style={{ height: '98%' }}
-          onChange={(e) => searchData(e.nativeEvent.text)}
+          onChange={(e) => {
+            searchData(e.nativeEvent.text);
+            setNativeEventText(e.nativeEvent.text);
+          }}
         />
       </View>
       <View style={[styles.resultContainer, { opacity: visible ? 1 : 0 }]}>
-        {searchResult.length < 1 ? (
-          <Text>Start searching...</Text>
+        {searchResult.length < 1 && nativeEventText.length < 1 ? (
+          <Text style={{ color: '#808080' }}>Start searching...</Text>
+        ) : nativeEventText.length > 0 && searchResult.length < 1 ? (
+          <TouchableOpacity onPress={handleAddSearch} style={styles.addButton}>
+            <Text style={{ color: 'white' }}>Create</Text>
+            <View>
+              <Text style={{ color: 'white' }}>{` "${nativeEventText}`}</Text>
+            </View>
+          </TouchableOpacity>
         ) : (
           <FlatList
             showsVerticalScrollIndicator={false}
             data={searchResult}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <Text>{item.value}</Text>}
+            renderItem={({ item }) => (
+              <Text style={{ marginTop: 5 }}>{item.value}</Text>
+            )}
           />
         )}
       </View>
@@ -149,15 +167,26 @@ const styles = StyleSheet.create({
     height: 57,
     marginTop: 20,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: '#778899',
     justifyContent: 'center',
     paddingLeft: 20,
+    borderRadius: 5,
   },
   resultContainer: {
     width: width - 40,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: '#778899',
     padding: 20,
     marginTop: 3,
+    borderRadius: 5,
+  },
+  addButton: {
+    flexDirection: 'row',
+    height: 30,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    padding: 7,
+    borderRadius: 3,
+    backgroundColor: 'blue',
   },
 });
